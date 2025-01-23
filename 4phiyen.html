@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>Gửi Phi Yến cụa Anhh</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <style>
+      #pinkboard {
+        display: none; /* Ẩn canvas ban đầu */
+      }
+    </style>
+  </head>
+  <body>
+    <button id="showCanvasButton">Hiển thị Canvas</button>
+    <!-- Thêm nút -->
+    <canvas id="pinkboard"></canvas>
+    <script src="./assets/js/script_copy.js"></script>
+    <script>
+      document
+        .getElementById("showCanvasButton")
+        .addEventListener("click", function () {
+          var canvas = document.getElementById("pinkboard");
+          canvas.style.display = "block"; // Hiển thị canvas khi nút được nhấn
+          this.style.display = "none"; // Ẩn nút sau khi nhấn
+
+          // Buộc trình duyệt vẽ lại canvas
+          setTimeout(function () {
+            canvas.getContext("2d"); // Lấy ngữ cảnh vẽ 2D
+          }, 0);
+        });
+    </script>
+  </body>
+</html>
