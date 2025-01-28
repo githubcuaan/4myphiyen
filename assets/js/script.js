@@ -76,7 +76,7 @@ var Particle = (function () {
   return Particle;
 })();
 
-//quản lý tập hợp hạt
+//
 var ParticlePool = (function () {
   var particles,
     firstActive = 0,
@@ -123,14 +123,12 @@ var ParticlePool = (function () {
   return ParticlePool;
 })();
 
-//canvas for drawing
 (function (canvas) {
   var context = canvas.getContext("2d"),
     particles = new ParticlePool(settings.particles.length),
     particleRate = settings.particles.length / settings.particles.duration,
     time;
 
-  //Tính toán tọa độ của một điểm trên hình trái tim dựa trên tham số góc t (dùng công thức toán học).
   function pointOnHeart(t) {
     return new Point(
       160 * Math.pow(Math.sin(t), 3),
@@ -142,7 +140,7 @@ var ParticlePool = (function () {
     );
   }
 
-  //bien image: Tạo một hình ảnh nhỏ dạng trái tim (kích thước settings.particles.size) để làm nền cho mỗi hạt.
+  //
   var image = (function () {
     var canvas = document.createElement("canvas"),
       context = canvas.getContext("2d");
@@ -169,11 +167,14 @@ var ParticlePool = (function () {
     context.fillStyle = "#79acd9";
     context.fill();
     var image = new Image();
-    image.src = canvas.toDataURL();x
+    image.src = canvas.toDataURL();
     return image;
   })();
 
-  // 
+  var textPosition = new Point(canvas.width / 2, canvas.height / 2 + 620); // Vị trí ban đầu của dòng chữ
+  var textVelocity = new Point(0, -50); // Tốc độ chuyển động của dòng chữ
+  var textOffset = 0.1; // Giảm biên độ lắc lư để tạo hiệu ứng nhẹ nhàng hơn
+
   function render() {
     requestAnimationFrame(render);
     var newTime = new Date().getTime() / 1000,
@@ -193,6 +194,15 @@ var ParticlePool = (function () {
     }
     particles.update(deltaTime);
     particles.draw(context, image);
+
+    // Cập nhật vị trí của dòng chữ với hiệu ứng lắc lư nhẹ nhàng
+    textPosition.y += Math.sin(newTime * 1) * textOffset; // Thay đổi tần số và biên độ
+
+    // Thêm dòng chữ dưới hình trái tim
+    context.font = "50px Comic Sans MS"; // Chọn font chữ
+    context.fillStyle = "#79acd9"; // Cùng màu với các hạt
+    context.textAlign = "center"; // Canh giữa
+    context.fillText("Yen oi! anh yeu em <3", canvas.width / 2, textPosition.y); // Dòng chữ
   }
 
   //

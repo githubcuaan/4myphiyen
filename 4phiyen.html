@@ -15,23 +15,59 @@
     </style>
   </head>
   <body>
-    <button id="showCanvasButton">Hiển thị Canvas</button>
-    <!-- Thêm nút -->
     <canvas id="pinkboard"></canvas>
-    <script src="./assets/js/script_copy.js"></script>
-    <script>
-      document
-        .getElementById("showCanvasButton")
-        .addEventListener("click", function () {
-          var canvas = document.getElementById("pinkboard");
-          canvas.style.display = "block"; // Hiển thị canvas khi nút được nhấn
-          this.style.display = "none"; // Ẩn nút sau khi nhấn
+    <div class="container">
+      <div class="typing-effect" id="typing-text"></div>
+      <div class="buttons">
+        <button class="yes" onclick="handleYes()">Yes</button>
+        <button class="no" id="noButton" onclick="handleNo()">No</button>
+      </div>
+    </div>
 
-          // Buộc trình duyệt vẽ lại canvas
-          setTimeout(function () {
-            canvas.getContext("2d"); // Lấy ngữ cảnh vẽ 2D
-          }, 0);
-        });
+    <script>
+      const text = "Em có yêu anh không!";
+      const typingText = document.getElementById("typing-text");
+      let index = 0;
+
+      function typeEffect() {
+        if (index < text.length) {
+          typingText.textContent += text.charAt(index);
+          index++;
+          setTimeout(typeEffect, 100);
+        } else {
+          typingText.style.borderRight = "none";
+        }
+      }
+
+      function handleYes() {
+        // Ẩn chữ và 2 nút
+        typingText.style.display = "none";
+        document.querySelector(".buttons").style.display = "none";
+
+        // Hiển thị canvas
+        const pinkboard = document.getElementById("pinkboard");
+        pinkboard.style.display = "block";
+
+        alert("Anh biết mà! ❤️");
+      }
+
+      function handleNo() {
+        const noButton = document.getElementById("noButton");
+        // Giới hạn kích thước di chuyển
+        const maxWidth = 700 - noButton.offsetWidth; // Chiều rộng tối đa
+        const maxHeight = 300 - noButton.offsetHeight; // Chiều cao tối đa
+
+        // Di chuyển nút "No" đến vị trí ngẫu nhiên trong giới hạn
+        const randomX = Math.random() * maxWidth;
+        const randomY = Math.random() * maxHeight;
+
+        noButton.style.position = "absolute";
+        noButton.style.left = randomX + "px";
+        noButton.style.top = randomY + "px";
+      }
+
+      typeEffect();
     </script>
+    <script src="./assets/js/script.js"></script>
   </body>
 </html>
