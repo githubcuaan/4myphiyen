@@ -2,15 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /s>
     <meta name="author" content="" />
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <title>Gửi Phi Yến cụa Anhh</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="icon" href="./assets/img/anhvoic.ico" type="image/x-icon" />
     <style>
       #pinkboard {
         display: none; /* Ẩn canvas ban đầu */
+      }
+      .buttons {
+        display: none; /* Ẩn nút ngay từ đầu */
       }
     </style>
   </head>
@@ -28,27 +32,86 @@
       const text = "Em có yêu anh không!";
       const typingText = document.getElementById("typing-text");
       let index = 0;
+      const textLines = [
+        "Anh chào bbi!",
+        "Đình An iu dấu xin chúc em có một năm mới hạnh phúc nhất thế giới ( cùng với anh =)) ).",
+        "Chúc em luôn xinh đẹp, thành công, có một cái tết vui vẻ bên gia đình và người thân nhía!",
+        "Nhân tiện choa anh hỏi cái này...",
+      ];
+      let lineIndex = 0;
 
       function typeEffect() {
-        if (index < text.length) {
-          typingText.textContent += text.charAt(index);
-          index++;
-          setTimeout(typeEffect, 100);
+        if (lineIndex < textLines.length) {
+          typingText.textContent = ""; // Xóa nội dung trước khi hiển thị dòng mới
+          index = 0; // Đặt lại chỉ số cho dòng mới
+          typeLine();
         } else {
           typingText.style.borderRight = "none";
+          setTimeout(() => {
+            // Sau khi hiển thị tất cả các dòng, hiển thị câu hỏi
+            typingText.textContent = ""; // Xóa nội dung
+            typingText.textContent = text; // Hiển thị câu hỏi
+            typeQuestion();
+          }, 1000); // Thời gian chờ trước khi hiển thị câu hỏi
         }
       }
 
+      function typeLine() {
+        if (index < textLines[lineIndex].length) {
+          typingText.textContent += textLines[lineIndex].charAt(index);
+          index++;
+          setTimeout(typeLine, 100);
+        } else {
+          lineIndex++;
+          setTimeout(typeEffect, 1000); // Thời gian chờ trước khi hiển thị dòng tiếp theo
+        }
+      }
+
+      function typeQuestion() {
+        // Hiển thị câu hỏi
+        typingText.style.borderRight = "solid 2px black"; // Thêm hiệu ứng gạch chân
+        typingText.textContent = text; // Hiển thị câu hỏi
+        document.querySelector(".buttons").style.display = "block"; // Hiển thị nút
+        typeEffect(); // Gọi lại hàm để bắt đầu hiệu ứng đánh máy cho câu hỏi
+      }
+
       function handleYes() {
+        // Hiển thị thông báo xác nhận
+        const confirmation = confirm("Em chắc chắn chưa?");
+        if (!confirmation) {
+          return; // Nếu người dùng chọn "No", thoát khỏi hàm
+        }
+
         // Ẩn chữ và 2 nút
         typingText.style.display = "none";
-        document.querySelector(".buttons").style.display = "none";
+        // document.querySelector(".buttons").style.display = "none";
+        // Ẩn nút "Yes" and "No"
+        document.querySelector(".yes").style.display = "none";
+        document.querySelector(".no").style.display = "none";
 
         // Hiển thị canvas
         const pinkboard = document.getElementById("pinkboard");
         pinkboard.style.display = "block";
 
-        alert("Anh biết mà! ❤️");
+        // Tạo thông báo tùy chỉnh
+        const customAlert = document.createElement("div");
+        customAlert.textContent = "Chọn iu tui là mất tất 😠";
+        customAlert.style.position = "fixed";
+        customAlert.style.top = "50%";
+        customAlert.style.left = "50%";
+        customAlert.style.transform = "translate(-50%, -50%)";
+        customAlert.style.backgroundColor = "white";
+        customAlert.style.padding = "40px";
+        customAlert.style.fontSize = "24px";
+        customAlert.style.width = "300px";
+        customAlert.style.textAlign = "center";
+        customAlert.style.zIndex = "1000";
+        document.body.appendChild(customAlert);
+
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(() => {
+          document.body.removeChild(customAlert);
+        }, 3000);
       }
 
       function handleNo() {

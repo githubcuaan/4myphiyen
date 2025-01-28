@@ -202,7 +202,11 @@ var ParticlePool = (function () {
     context.font = "50px Comic Sans MS"; // Chọn font chữ
     context.fillStyle = "#79acd9"; // Cùng màu với các hạt
     context.textAlign = "center"; // Canh giữa
-    context.fillText("Yen oi! anh yeu em <3", canvas.width / 2, textPosition.y); // Dòng chữ
+    context.fillText(
+      "Yen oi! anh cung iu babi lammmm >.<",
+      canvas.width / 2,
+      textPosition.y
+    ); // Dòng chữ
   }
 
   //
